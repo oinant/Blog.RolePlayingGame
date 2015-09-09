@@ -1,4 +1,6 @@
-﻿namespace Blog.RolePlayingGame.Core
+﻿using System.Runtime.InteropServices;
+
+namespace Blog.RolePlayingGame.Core
 {
     public interface ITarget
     {
@@ -8,41 +10,33 @@
 
     public class Hero
     {
-        private HeroClass _class;
-        private int _level;
-        private int _health;
-        private int _strenght;
-        private int _spirit;
-        private int _speed;
+        public HeroClass Class { get; private set; }
+        public string Name { get; private set; }
+        public int Level { get; private set; }
+        public int Health { get; private set; }
+        public int Strength { get; private set; }
+        public int Spirit { get; private set; }
+        public int Speed { get; private set; }
 
-        public Hero(HeroClass @class, int level, int health, int strenght, int spirit, int speed)
+        public Hero(HeroClass @class, string name, int level, int health, int strength, int spirit, int speed)
         {
-            _speed = speed;
-            _spirit = spirit;
-            _strenght = strenght;
-            _health = health;
-            _level = level;
-            _class = @class;
+            Class = @class;
+            Name = name;
+            Level = level;
+            Health = health;
+            Strength = strength;
+            Spirit = spirit;
+            Speed = speed;
         }
 
         public void Hit(ITarget target)
         {
-            target.ReceivePhysicalAttack(this._strenght);
+            target.ReceivePhysicalAttack(this.Strength);
         }
 
         public void Spell(ITarget target)
         {
-            target.ReceiveMagicalAttack(this._spirit);
-        }
-
-        public HeroClass GetClass()
-        {
-            return _class;
-        }
-
-        public object GetHealth()
-        {
-            return _health;
+            target.ReceiveMagicalAttack(this.Spirit);
         }
     }
 

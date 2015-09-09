@@ -7,6 +7,7 @@ namespace Blog.RolePlayingGame.Core
         private HeroClass _class;
         private int _level;
         private int _health;
+        private string _name;
 
         public HeroBuilder()
         {
@@ -25,9 +26,16 @@ namespace Blog.RolePlayingGame.Core
             return this;
         }
 
-        private bool IsClassNotSettled()
+        public HeroBuilder OfThiefClass()
         {
-            return _class == default(HeroClass);
+            _class = HeroClass.Thief;
+            return this;
+        }
+
+        public HeroBuilder WithName(string name)
+        {
+            _name = name;
+            return this;
         }
 
         public HeroBuilder WithLevel(int level)
@@ -42,27 +50,36 @@ namespace Blog.RolePlayingGame.Core
             if( IsClassNotSettled())
                 throw new BuildingHeroWithoutClassAttempException();
 
+            if(IsNameNotSettled())
+                throw new BuildingHeroWithoutNameAttempException();
+
             return new Hero(@class: _class, 
+                name: _name ,
                 level:1, 
                 health: _health,
-                strenght: 0,
+                strength: 0,
                 spirit: 0,
                 speed: 0);
         }
 
-        public HeroBuilder OfThiefClass()
+        private bool IsClassNotSettled()
         {
-            _class = HeroClass.Thief;
-            return this;
+            return _class == default(HeroClass);
+        }
+
+        private bool IsNameNotSettled()
+        {
+            return string.IsNullOrWhiteSpace(_name);
         }
 
         public class BuildingHeroWithoutClassAttempException : Exception
         {
-            public BuildingHeroWithoutClassAttempException()
-                : base ("Cannot creating an hero without class")
-            {
-                
-            }
+            public BuildingHeroWithoutClassAttempException() : base ("Cannot creating an hero without class") { }
+        }
+
+        public class BuildingHeroWithoutNameAttempException : Exception
+        {
+            public BuildingHeroWithoutNameAttempException() : base("Cannot creating an hero without name") { }
         }
     }
 
