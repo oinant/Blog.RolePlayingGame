@@ -52,40 +52,4 @@
         Wizard = 2,
         Thief = 3
     }
-
-    public class HeroBuilder
-    {
-        private HeroClass _class;
-        private int _level;
-        private int _health;
-
-        public HeroBuilder()
-        {
-            _level = 1;
-        }
-
-        public HeroBuilder OfWarriorClass()
-        {
-            this._class = HeroClass.Warrior;
-            return this;
-        }
-
-        public HeroBuilder WithLevel(int level)
-        {
-            this._level = level;
-            this._health = level*10;
-            return this;
-        }
-
-        public Hero Create()
-        {
-            return new Hero(@class: _class, 
-                            level:1, 
-                            health: _health,
-                            strenght: 0,
-                            spirit: 0,
-                            speed: 0);
-        }
-
-    }
 }

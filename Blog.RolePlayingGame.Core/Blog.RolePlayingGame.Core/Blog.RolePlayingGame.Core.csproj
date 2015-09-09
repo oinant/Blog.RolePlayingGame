@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Hero.cs" />
+    <Compile Include="HeroBuilder.cs" />
     <Compile Include="HeroStartingModificator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

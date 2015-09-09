@@ -1,5 +1,6 @@
 Step 1
 - A player can be a Hero : a Warrior, a Wizard, or a Thief (we keep it simple)
+- n Hero has a name (a terrific one, obviously!)
 - Every Heroes have 3 main characteristics: Health, Strenght, Spirit, and Speed, that are counted in points. 
 - Heroes have a Level, and starting skills are based on this level (Health starts at Level * 10, Strenght and Spirit start at Level * 5, and Speed starts at Level * 3)
 - Player can improve 2 Characteristics of 1 points each or 1 characteristic of 2 points, in order to cutomize his Hero. 
