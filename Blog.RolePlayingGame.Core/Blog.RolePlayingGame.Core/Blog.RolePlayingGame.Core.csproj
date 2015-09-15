@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttempToBoostCharacteristicOfMoreThanTwoException.cs" />
+    <Compile Include="AttempToBoostWithDefaultCharacterisitcBoostException.cs" />
+    <Compile Include="BoostCharacteristics.cs" />
+    <Compile Include="CharacteristicBooster.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="HeroBuilder.cs" />
     <Compile Include="HeroStartingModificator.cs" />

@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Blog.RolePlayingGame.Core
+﻿namespace Blog.RolePlayingGame.Core
 {
     public interface ITarget
     {

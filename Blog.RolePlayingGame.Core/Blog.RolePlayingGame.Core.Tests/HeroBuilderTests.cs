@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Activation;
+using Blog.RolePlayingGame.Core.Tests.Infrastucture;
 using Shouldly;
 
 
@@ -8,32 +11,32 @@ namespace Blog.RolePlayingGame.Core.Tests
     {
         public void An_HeroBuilder_can_build_a_warrior()
         {
-            Hero expected =  new HeroBuilder()
+            Hero actual = new HeroBuilder()
                                  .OfWarriorClass()
                                  .FillFromName()
                                  .Create();
 
-            expected.Class.ShouldBe(HeroClass.Warrior);
+            actual.Class.ShouldBe(HeroClass.Warrior);
         }
 
         public void An_HeroBuilder_can_build_a_wizard()
         {
-            Hero expected = new HeroBuilder()
+            Hero actual = new HeroBuilder()
                                  .OfWizardClass()
                                  .FillFromName()
                                  .Create();
 
-            expected.Class.ShouldBe(HeroClass.Wizard);
+            actual.Class.ShouldBe(HeroClass.Wizard);
         }
 
         public void An_HeroBuilder_can_build_a_thief()
         {
-            Hero expected = new HeroBuilder()
+            Hero actual = new HeroBuilder()
                                  .OfThiefClass()
                                  .FillFromName()
                                  .Create();
 
-            expected.Class.ShouldBe(HeroClass.Thief);
+            actual.Class.ShouldBe(HeroClass.Thief);
         }
 
         public void An_HeroBuilder_cannot_build_a_hero_without_class()
@@ -45,11 +48,11 @@ namespace Blog.RolePlayingGame.Core.Tests
         public void An_Hero_should_have_a_name()
         {
             var name = "The Mitghty Radgar";
-            Hero expectedHero = null;
-            
-            Action buildWithAName = () => expectedHero = new HeroBuilder().OfWarriorClass().WithName("The Mitghty Radgar").FillAfterName().Create();
+            Hero actualHero = null;
+
+            Action buildWithAName = () => actualHero = new HeroBuilder().OfWarriorClass().WithName("The Mitghty Radgar").FillAfterName().Create();
             buildWithAName.ShouldNotThrow();
-            expectedHero.Name.ShouldBe(name);
+            actualHero.Name.ShouldBe(name);
 
             Action buildWithoutAName = () => new HeroBuilder().OfWarriorClass().Create();
             buildWithoutAName.ShouldThrow<HeroBuilder.BuildingHeroWithoutNameAttempException>();
@@ -57,37 +60,62 @@ namespace Blog.RolePlayingGame.Core.Tests
 
         public void When_built_thehero_level_is_one_by_default()
         {
-            Hero expected = new HeroBuilder()
+            Hero actual = new HeroBuilder()
                                  .FillBeforeLevel()
                                  .FillAfterLevel()
                                  .Create();
 
-            expected.Level.ShouldBe(1);
+            actual.Level.ShouldBe(1);
         }
 
-        public void WhenBuilt_a_level1_hero_has_10_health()
+        public void WhenBuilt_a_level3_hero_is_level_3()
         {
-            Hero expected = new HeroBuilder()
+            Hero actual = new HeroBuilder()
                                  .FillBeforeLevel()
-                                 .WithLevel(1)
+                                 .WithLevel(3)
                                  .Create();
 
-            expected.Health.ShouldBe(10);
+            actual.Level.ShouldBe(3);
         }
 
-        public void WhenBuilt_a_level2_hero_has_20_health()
+        [CharacteristicsFixture("thief", 1, 10, 5, 5, 3)]
+        [CharacteristicsFixture("thief", 2, 20, 10, 10, 6)]
+        [CharacteristicsFixture("warrior", 1, 10, 7, 3, 3)]
+        [CharacteristicsFixture("warrior", 2, 20, 12, 8, 6)]
+        [CharacteristicsFixture("wizard", 1, 10, 3, 7, 3)]
+        [CharacteristicsFixture("wizard", 2, 20, 8, 12, 6)]
+        public void a_hero_with_class_and_level_has_given_charateristics(string @class, int level, int expectedHealth, int expectedStrength, int expectedSpirit, int expectedSpeed)
         {
-            Hero expected = new HeroBuilder()
-                                 .FillBeforeLevel()
-                                 .WithLevel(2)
-                                 .Create();
+            Hero actual = new HeroBuilder()
+                .WithStringClass(@class)
+                .WithName("the name")
+                .WithLevel(level)
+                .Create();
 
-            expected.Health.ShouldBe(20);
+            actual.Level.ShouldBe(level);
+            actual.Health.ShouldBe(expectedHealth);
+            actual.Strength.ShouldBe(expectedStrength);
+            actual.Spirit.ShouldBe(expectedSpirit);
+            actual.Speed.ShouldBe(expectedSpeed);
         }
+
+
     }
 
     internal static class HeroBuilderTestExtensions
     {
+        internal static HeroBuilder WithStringClass(this HeroBuilder heroBuilder, string @class)
+        {
+            if (@class.Equals("warrior", StringComparison.OrdinalIgnoreCase))
+                heroBuilder.OfWarriorClass();
+            if (@class.Equals("thief", StringComparison.OrdinalIgnoreCase))
+                heroBuilder.OfThiefClass();
+            if (@class.Equals("wizard", StringComparison.OrdinalIgnoreCase))
+                heroBuilder.OfWizardClass();
+
+            return heroBuilder;
+        }
+
         internal static HeroBuilder FillFromName(this HeroBuilder builder)
         {
             return builder.WithName("theName").FillFromLevel();
@@ -107,10 +135,10 @@ namespace Blog.RolePlayingGame.Core.Tests
         {
             return builder.OfWarriorClass().WithName("theName");
         }
-        
+
         internal static HeroBuilder FillAfterLevel(this HeroBuilder builder)
         {
             return builder;
-        } 
+        }
     }
 }
