@@ -12,9 +12,8 @@ namespace Blog.RolePlayingGame.Core
         private int _speed;
         private string _name;
 
-        
         private CharacteristicsModificator _modificator;
-        private CharacteristicBoosterSet _boosterSet = new CharacteristicBoosterSet();
+        private readonly CharacteristicBoosterSet _boosterSet = new CharacteristicBoosterSet();
 
         private bool _dolevelComputation = true;
 
@@ -62,6 +61,18 @@ namespace Blog.RolePlayingGame.Core
             return this;
         }
 
+        public HeroBuilder BoostStrength(BoostCharacteristics boost = BoostCharacteristics.OfOne)
+        {
+            _boosterSet.BoostStrength(boost);
+            return this;
+        }
+
+        public HeroBuilder BoostSpirit(BoostCharacteristics boost = BoostCharacteristics.OfOne)
+        {
+            _boosterSet.BoostSpirit(boost);
+            return this;
+        }
+
         public Hero Create()
         {
             if (IsClassNotSettled())
@@ -86,18 +97,6 @@ namespace Blog.RolePlayingGame.Core
                 speed: _speed);
         }
 
-        private void ApplyBoost()
-        {
-            _strength += _boosterSet.StrengthBoost;
-            _spirit += _boosterSet.SpiritBoost;
-        }
-
-        private void ApplyModificator()
-        {
-            _strength += _modificator.Strength;
-            _spirit += _modificator.Spirit;
-        }
-
         private bool IsClassNotSettled()
         {
             return _class == default(HeroClass);
@@ -108,6 +107,18 @@ namespace Blog.RolePlayingGame.Core
             return string.IsNullOrWhiteSpace(_name);
         }
 
+        private void ApplyModificator()
+        {
+            _strength += _modificator.Strength;
+            _spirit += _modificator.Spirit;
+        }
+
+        private void ApplyBoost()
+        {
+            _strength += _boosterSet.StrengthBoost;
+            _spirit += _boosterSet.SpiritBoost;
+        }
+
         public class BuildingHeroWithoutClassAttempException : Exception
         {
             public BuildingHeroWithoutClassAttempException() : base("Cannot creating an hero without class") { }
@@ -116,18 +127,6 @@ namespace Blog.RolePlayingGame.Core
         public class BuildingHeroWithoutNameAttempException : Exception
         {
             public BuildingHeroWithoutNameAttempException() : base("Cannot creating an hero without name") { }
-        }
-        
-        public HeroBuilder BoostStrength(BoostCharacteristics boost = BoostCharacteristics.OfOne)
-        {
-            _boosterSet.BoostStrength(boost);
-            return this;
-        }
-
-        public HeroBuilder BoostSpirit(BoostCharacteristics boost = BoostCharacteristics.OfOne)
-        {
-            _boosterSet.BoostSpirit(boost);
-            return this;
         }
     }
 
