@@ -2,7 +2,7 @@
 {
     public interface ITarget
     {
-        void ReceivePhysicalAttack(int strength);
+        void ReceivePhysicalAttack(int incomingStrength);
         void ReceiveMagicalAttack(int strength);
     }
 

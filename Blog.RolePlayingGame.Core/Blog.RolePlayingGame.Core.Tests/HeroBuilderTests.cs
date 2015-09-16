@@ -99,7 +99,105 @@ namespace Blog.RolePlayingGame.Core.Tests
             actual.Speed.ShouldBe(expectedSpeed);
         }
 
+        public void a_hero_can_be_boosted_on_strength_once()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostStrength()
+                                        .Create();
 
+            heroWithBoost.Strength.ShouldBe(heroWithoutBoost.Strength + 1);
+        }
+
+        public void a_hero_can_be_boosted_on_strength_twice()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostStrength()
+                                        .BoostStrength()
+                                        .Create();
+
+            heroWithBoost.Strength.ShouldBe(heroWithoutBoost.Strength + 2);
+        }
+
+        public void a_hero_cannot_be_boosted_on_strength_three_times()
+        {
+            
+            Action attempt = () =>
+            {
+                new HeroBuilder()
+                    .FillBeforeBoost()
+                    .BoostStrength()
+                    .BoostStrength()
+                    .BoostStrength()
+                    .Create();
+            };
+
+            attempt.ShouldThrow<Exception>();
+        }
+
+        public void a_hero_can_be_boosted_on_strength_ofTwo()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostStrength(BoostCharacteristics.OfTwo)
+                                        .Create();
+
+            heroWithBoost.Strength.ShouldBe(heroWithoutBoost.Strength + 2);
+        }
+
+        public void a_hero_can_be_boosted_on_spirit_once()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostSpirit()
+                                        .Create();
+
+            heroWithBoost.Spirit.ShouldBe(heroWithoutBoost.Spirit + 1);
+        }
+
+        public void a_hero_can_be_boosted_on_spirit_twice()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostSpirit()
+                                        .BoostSpirit()
+                                        .Create();
+
+            heroWithBoost.Spirit.ShouldBe(heroWithoutBoost.Spirit + 2);
+        }
+
+        public void a_hero_cannot_be_boosted_on_spirit_three_times()
+        {
+
+            Action attempt = () =>
+            {
+                new HeroBuilder()
+                    .FillBeforeBoost()
+                    .BoostSpirit()
+                    .BoostSpirit()
+                    .BoostSpirit()
+                    .Create();
+            };
+
+            attempt.ShouldThrow<Exception>();
+        }
+
+        public void a_hero_can_be_boosted_on_spirit_three_times()
+        {
+            var heroWithoutBoost = new HeroBuilder().FillBeforeBoost().Create();
+            var heroWithBoost = new HeroBuilder()
+                                        .FillBeforeBoost()
+                                        .BoostSpirit(BoostCharacteristics.OfTwo)
+                                        .Create();
+
+            heroWithBoost.Spirit.ShouldBe(heroWithoutBoost.Spirit + 2);
+        }
     }
 
     internal static class HeroBuilderTestExtensions
@@ -139,6 +237,11 @@ namespace Blog.RolePlayingGame.Core.Tests
         internal static HeroBuilder FillAfterLevel(this HeroBuilder builder)
         {
             return builder;
+        }
+
+        internal static HeroBuilder FillBeforeBoost(this HeroBuilder builder)
+        {
+            return builder.FillBeforeLevel().FillFromName();
         }
     }
 }

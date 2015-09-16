@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharacteristicBoosterSetTests.cs" />
     <Compile Include="CharacteristicBoosterTests.cs" />
     <Compile Include="HeroBuilderTests.cs" />
     <Compile Include="Infrastucture\Convention.cs" />

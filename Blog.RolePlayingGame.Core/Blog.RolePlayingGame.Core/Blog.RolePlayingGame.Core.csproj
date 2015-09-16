@@ -46,6 +46,7 @@
     <Compile Include="AttempToBoostWithDefaultCharacterisitcBoostException.cs" />
     <Compile Include="BoostCharacteristics.cs" />
     <Compile Include="CharacteristicBooster.cs" />
+    <Compile Include="CharacteristicBoosterSet.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="HeroBuilder.cs" />
     <Compile Include="HeroStartingModificator.cs" />

@@ -12,7 +12,9 @@ namespace Blog.RolePlayingGame.Core
         private int _speed;
         private string _name;
 
+        
         private CharacteristicsModificator _modificator;
+        private CharacteristicBoosterSet _boosterSet = new CharacteristicBoosterSet();
 
         private bool _dolevelComputation = true;
 
@@ -73,6 +75,8 @@ namespace Blog.RolePlayingGame.Core
 
             ApplyModificator();
 
+            ApplyBoost();
+
             return new Hero(@class: _class,
                 name: _name,
                 level: _level,
@@ -80,6 +84,12 @@ namespace Blog.RolePlayingGame.Core
                 strength: _strength,
                 spirit: _spirit,
                 speed: _speed);
+        }
+
+        private void ApplyBoost()
+        {
+            _strength += _boosterSet.StrengthBoost;
+            _spirit += _boosterSet.SpiritBoost;
         }
 
         private void ApplyModificator()
@@ -107,9 +117,18 @@ namespace Blog.RolePlayingGame.Core
         {
             public BuildingHeroWithoutNameAttempException() : base("Cannot creating an hero without name") { }
         }
+        
+        public HeroBuilder BoostStrength(BoostCharacteristics boost = BoostCharacteristics.OfOne)
+        {
+            _boosterSet.BoostStrength(boost);
+            return this;
+        }
 
-
-
+        public HeroBuilder BoostSpirit(BoostCharacteristics boost = BoostCharacteristics.OfOne)
+        {
+            _boosterSet.BoostSpirit(boost);
+            return this;
+        }
     }
 
     public struct CharacteristicsModificator
